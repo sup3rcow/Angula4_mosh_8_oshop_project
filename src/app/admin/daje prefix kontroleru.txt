@@ -1,0 +1,4 @@
+dajes prefix kontroleru isti kao i naziv foldera
+
+jer imas products komponentu, pa nije dobro ako se i tu isto tako zove..
+ima ces problem prilikom definiranja ruta, u app.module.ts..

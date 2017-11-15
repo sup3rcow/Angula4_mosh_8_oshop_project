@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "dist", // firebaseu kazes gde se nalazi build aplikacije
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
