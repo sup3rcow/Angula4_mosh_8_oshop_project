@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
@@ -20,6 +21,8 @@ export class AuthService {
     this.user$ = afAuth.authState; // radis ovako, pa u html-u moras koristiti pipe async
     // radis ovako jer kad koristis firebase, moras se unsubscribati, kosristenjem pipea async
     // to će see automatskin napraviti kada se konponenta "unisti", kad koristis http modul ne trebas ovo raditi jer se on sam unsubscriba
+    // jos jedan od nacina da se unsubscribas je da implenetiras u klasi koja se subscriba
+    // , OnDestroy inteface.. to prouci ako ti bude trebalo
   }
 
   login() {
