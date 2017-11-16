@@ -22,6 +22,7 @@ import { AdminProductsComponent } from './admin/admin-products/admin-products.co
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AuthService } from './auth.service';
 
 
 @NgModule({
@@ -58,7 +59,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ]),
     NgbModule.forRoot()
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
