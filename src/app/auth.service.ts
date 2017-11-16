@@ -4,6 +4,12 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
+import { AppUser } from './models/app-user';
+import { UserService } from './user.service';
+import { ActivatedRoute } from '@angular/router';
+
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +19,7 @@ export class AuthService {
   user$: Observable<firebase.User>; // ako si picajzla napravis svoj objekt i pomapiras samo atirbute
   // od usera koje bi da saljes u komponentu
 
-  constructor(private afAuth: AngularFireAuth) {
+  constructor(private afAuth: AngularFireAuth, private userService: UserService, private route: ActivatedRoute) {
     // afAuth.authState.subscribe(user => {
     //   console.log(user);
     //   this.user$ = user;
@@ -26,6 +32,11 @@ export class AuthService {
   }
 
   login() {
+    // zbog google logiranja -redirektanja, ne mozes redirektati tu
+    // kao sto si radio u primjerima za ucenje, nego spremas return url i radis
+    // observable u AppComponent i od tuda redirektas
+    localStorage.setItem('returnUrl', this.route.snapshot.queryParamMap.get('returnUrl') || '/');
+
     // tu je ok da imas "new", jer ako nekada imao unit test, mokat ces servis..
     // jer ces unit test raditi za komponente a ne servise
     this.afAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
@@ -35,5 +46,17 @@ export class AuthService {
     // localStorage.removeItem('firebase:authUser:....');
     // ocito trebas i serveru javiti da se zelis odlogirati a ne samo u aplikaciji maknuti token?
     this.afAuth.auth.signOut();
+  }
+
+  // prebacuje Observable<firebase.User> u FirebaseObjectObservable<AppUser> ili Observable<null>
+  // async pipe i appUser$, ne smijes zajedno koristiti, jer se stvori infinite loop
+  // observable unutar observable-a, pa async pipe misli da se stalno dogadja neka promjena..
+  get appUser$(): Observable<AppUser> {
+    return this.user$.switchMap(user => {
+      if (user) {
+        return this.userService.get(user.uid);
+      }
+      return Observable.of(null);
+    });
   }
 }
