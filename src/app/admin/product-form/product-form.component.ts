@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { CategoryService } from '../../category.service';
 import { ProductService } from '../../product.service';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import 'rxjs/add/operator/take';
 
 @Component({
   selector: 'app-product-form',
@@ -11,13 +14,27 @@ export class ProductFormComponent  {
 
   categories$;
 
-  constructor(public categoryService: CategoryService, private productService: ProductService) {
+  product = {}; // postavis u prazan objekt, jer ce javljati gresku null reference exception
+
+  constructor(
+    private categoryService: CategoryService,
+    private productService: ProductService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.categories$ = categoryService.getCategories();
+
+    let id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      // kada koristis take operator, tad se observable odmah nakon dohvacanja unsubscriba
+      // pa ne moras koristiti async pipe ili OnDestroy
+      this.productService.get(id).take(1).subscribe(p => this.product = p);
+    }
   }
 
   save(product) {
-    // this.productService.create(product);
-    console.log(product);
+    this.productService.create(product);
+    // console.log(product);
+    this.router.navigate(['/admin/products']);
   }
-
 }
