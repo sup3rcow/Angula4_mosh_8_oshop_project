@@ -14,7 +14,14 @@ export class ProductFormComponent  {
 
   categories$;
 
-  product = {}; // postavis u prazan objekt, jer ce javljati gresku null reference exception
+  product = {
+    title: '',
+    price: '',
+    category: '',
+    imageUrl: ''
+  }; // postavis u prazan objekt, jer ce javljati gresku null reference exception
+  // postavio si i prazne propertije jer kompjaler head of time javlja greske da ne moze naci propertije
+  // ako samo stavis prazan objekt {} bez propertija
 
   constructor(
     private categoryService: CategoryService,
