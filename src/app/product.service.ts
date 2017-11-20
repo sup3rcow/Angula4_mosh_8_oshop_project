@@ -18,4 +18,14 @@ export class ProductService {
     return this.db.object('/products/' + productId);
   }
 
+  update(productid, product) {
+    // firebase update objekt moze sadrzati samo propertije koji se meju update-ati
+    // u product objektu smijemo imati propertije koji se meju update-ati, a to nije productid zato ga posebno saljemo kao parametar
+    return this.db.object('/products/' + productid).update(product);
+  }
+
+  delete(productid) {
+    return this.db.object('/products/' + productid).remove();
+  }
+
 }

@@ -12,6 +12,7 @@ import 'rxjs/add/operator/take';
 })
 export class ProductFormComponent  {
 
+  id;
   categories$;
 
   product = {
@@ -31,17 +32,28 @@ export class ProductFormComponent  {
   ) {
     this.categories$ = categoryService.getCategories();
 
-    let id = this.route.snapshot.paramMap.get('id');
-    if (id) {
+    this.id = this.route.snapshot.paramMap.get('id');
+    if (this.id) {
       // kada koristis take operator, tad se observable odmah nakon dohvacanja unsubscriba
       // pa ne moras koristiti async pipe ili OnDestroy
-      this.productService.get(id).take(1).subscribe(p => this.product = p);
+      this.productService.get(this.id).take(1).subscribe(p => this.product = p);
     }
   }
 
   save(product) {
-    this.productService.create(product);
+    if (this.id) {
+      this.productService.update(this.id, product);
+    } else {
+      this.productService.create(product);
+    }
     // console.log(product);
     this.router.navigate(['/admin/products']);
+  }
+
+  delete() {
+    if (confirm('Are you sure you want to delete this product?')) {
+      this.productService.delete(this.id);
+      this.router.navigate(['/admin/products']);
+    }
   }
 }

@@ -33,6 +33,7 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from './product.service';
 
 import { CustomFormsModule } from 'ng2-validation';
+import { DataTableModule } from 'angular-4-data-table';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { CustomFormsModule } from 'ng2-validation';
       { path: '**', component: NotFoundComponent }
     ]),
     NgbModule.forRoot(),
-    CustomFormsModule
+    CustomFormsModule,
+    DataTableModule
   ],
   providers: [AuthService, UserService, AuthGuard, AdminAuthGuard, CategoryService, ProductService],
   bootstrap: [AppComponent]
