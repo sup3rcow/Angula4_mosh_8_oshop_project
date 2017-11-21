@@ -3,13 +3,25 @@
 <p>
     <input (keyup)="filter(query.value)" #query  type="text" class="form-control" placeholder="Search">
 </p>
-<ul class="pagination pagination-sm">
-    <li><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-</ul>
+
+<ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Nazad">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Nazad</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Naprijed">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Naprijed</span>
+      </a>
+    </li>
+  </ul>
+
 <table class="table">
     <thead>
         <tr>
