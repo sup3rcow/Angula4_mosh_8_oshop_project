@@ -19,7 +19,12 @@ export class AdminAuthGuard implements CanActivate {
         if (appUser.isAdmin) {
           return true;
         }
-        this.router.navigate(['/']); // ili napravis rutu not authorized
+        this.router.navigate(['/login'],
+        {
+          queryParams: {
+            returnUrl: state.url
+          }
+        });
         return false;
       });
   }

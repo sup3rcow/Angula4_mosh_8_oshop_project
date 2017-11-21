@@ -27,7 +27,9 @@ export class AppComponent {
         // redirekt dio
         let returnUrl = localStorage.getItem('returnUrl');
         localStorage.removeItem('returnUrl');
-        router.navigate([returnUrl || '/']);
+        if  (returnUrl) {
+          router.navigate([returnUrl]); // [returnUrl || '/'] // ne ovako jer ce te redirektati ako nemas return url
+        }
       }
     });
   }
