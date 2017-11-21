@@ -1,26 +1,25 @@
+<div class="addspace">
+    <a routerLink="/admin/products/new" class="btn btn-primary">New Product</a>
+    <div class="goright">
+            <input (keyup)="filteredItems(query.value)" #query  type="text" class="form-control" placeholder="Search">
+    </div>       
+</div>
 
-<a routerLink="/admin/products/new" class="btn btn-primary">New Product</a>
-<p>
-    <input (keyup)="filter(query.value)" #query  type="text" class="form-control" placeholder="Search">
-</p>
 
-<ul class="pagination">
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Nazad">
-        <span aria-hidden="true">&laquo;</span>
-        <span class="sr-only">Nazad</span>
-      </a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Naprijed">
-        <span aria-hidden="true">&raquo;</span>
-        <span class="sr-only">Naprijed</span>
-      </a>
-    </li>
-  </ul>
+
+<div class="addspace">
+    <div class="input-group pagesize goleft">
+        <span class="input-group-addon">Page size:</span>
+        <select type="number" [(ngModel)]="pageSize" class="form-control" (click)="displayedItems()">
+            <option value="4" >4</option>
+            <option value="10" >10</option>
+            <option value="15" >15</option>
+            <option value="30" >30</option>
+        </select>
+    </div>
+
+    <ngb-pagination class="goright" [collectionSize]="filteredProducts?.length" [pageSize]="pageSize" [(page)]="page" maxSize="3" rotate="true" (pageChange)="displayedItems()"></ngb-pagination>                
+</div>
 
 <table class="table">
     <thead>
@@ -31,7 +30,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let p of filteredProducts">
+        <tr *ngFor="let p of displayProducts">
             <td>{{p.title}}</td>
             <td>{{p.price}}</td>
             <td>

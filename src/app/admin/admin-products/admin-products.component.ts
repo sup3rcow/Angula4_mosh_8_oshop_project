@@ -11,12 +11,18 @@ import { Product } from '../../models/product';
 })
 export class AdminProductsComponent implements OnInit, OnDestroy {
 
+  // https://ng-bootstrap.github.io/#/components/pagination/api
+  pageSize = 4;
+  page = 1;
 
   // products$;
   products: Product[]; // nije vise observable jer lokalno filtriras products
   filteredProducts: Product[];
+  displayProducts: Product[];
 
   subscription: Subscription;
+
+
 
   constructor(private productService: ProductService) {
     // this.products$ = productService.getAll(); // u html-u vise ne pristupas preko | async
@@ -24,15 +30,26 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     // Unsubscribe radis u OnDestroy metodi
     // ako korisnik ima otvorena 2 taba, u jednom uredjuje products a ovde gleda koje sve ima
     // popis ce mu se osvjezavati automatski, ako npr kreira novi product
-    this.subscription = productService.getAll().subscribe(products => this.filteredProducts = this.products = products);
+    this.subscription = productService.getAll().subscribe(products => {
+      this.filteredProducts = this.products = products;
+
+      this.displayedItems();
+    });
+
   }
 
   // posto ne radis sa puno podataka.. reda velicine 500 zapisa u tablici
   // filtriranje radis na klijentu nakon sto povuces sve podatke sa servera
-  filter(query: string) {
+  filteredItems(query: string) {
     this.filteredProducts = (query) ?
     this.products.filter(x => x.title.toLowerCase().includes(query.toLowerCase())) :
     this.products;
+
+    this.displayedItems();
+  }
+
+  displayedItems() {
+    this.displayProducts = this.filteredProducts.slice(this.pageSize * (this.page - 1), this.pageSize * this.page);
   }
 
   ngOnInit() {
