@@ -15,6 +15,8 @@ import { UserService } from '../user.service';
 })
 export class BsNavbarComponent {
 
+  isCollapsed = true;
+
   appUser: AppUser;
 
   // ako authService koristis u html-u - templejtu, zbog bildanja za produkciju, ahead of time compiler ocekuje
@@ -29,5 +31,9 @@ export class BsNavbarComponent {
 
   logout() {
     this.authService.logout();
+  }
+
+  toggle() {
+    this.isCollapsed = !this.isCollapsed;
   }
 }

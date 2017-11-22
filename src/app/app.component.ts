@@ -17,19 +17,19 @@ export class AppComponent {
     // primjer https://github.com/sup3rcow/Angula4_mosh_3part_authentication/blob/master/src/app/login/login.component.ts
     // POSTO APP.COMPONENT ZIVI STALNO, NE MORAS HENDLATI UNSUBCRIPTION OF FIREBASE AUTH SERVISA
     authService.user$.subscribe(user => {
-      if (user) {
+      if (!user) {
+        return;
+      }
+      // posto u ovoj aplikaciji nema registracije(tj aplikacije ne hendla uredjivanje korisnika),
+      // moras kod svakog logiranj
+      // napraviti update/save usera u svoju bazu, jer je mozda user mijenjao npr svoje ime
+      userService.save(user);
 
-        // posto u ovoj aplikaciji nema registracije(tj aplikacije ne hendla uredjivanje korisnika),
-        // moras kod svakog logiranj
-        // napraviti update/save usera u svoju bazu, jer je mozda user mijenjao npr svoje ime
-        userService.save(user);
-
-        // redirekt dio
-        let returnUrl = localStorage.getItem('returnUrl');
+      // redirekt dio
+      let returnUrl = localStorage.getItem('returnUrl');
+      if  (returnUrl) {
         localStorage.removeItem('returnUrl');
-        if  (returnUrl) {
-          router.navigate([returnUrl]); // [returnUrl || '/'] // ne ovako jer ce te redirektati ako nemas return url
-        }
+        router.navigate([returnUrl]); // [returnUrl || '/'] // ne ovako jer ce te redirektati ako nemas return url
       }
     });
   }

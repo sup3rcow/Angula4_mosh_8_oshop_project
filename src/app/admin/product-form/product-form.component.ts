@@ -30,7 +30,7 @@ export class ProductFormComponent  {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.categories$ = categoryService.getCategories();
+    this.categories$ = categoryService.getAll();
 
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {

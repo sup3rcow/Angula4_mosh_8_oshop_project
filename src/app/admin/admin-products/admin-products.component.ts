@@ -31,7 +31,9 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
     // ako korisnik ima otvorena 2 taba, u jednom uredjuje products a ovde gleda koje sve ima
     // popis ce mu se osvjezavati automatski, ako npr kreira novi product
     this.subscription = productService.getAll().subscribe(products => {
-      this.filteredProducts = this.products = products;
+      this.filteredProducts = this.products = products
+      .sort((a, b) => 0 - (a.title > b.title ? -1 : 1)); // sortira asc po title, mozda bolje sortiranje da prepustis serveru.
+      // tu ces morati hendlati i hrvatska slova..
 
       this.displayedItems();
     });

@@ -43,7 +43,7 @@
         </form>
       </div>
       <div class="col-md-6">
-        <div class="card" style="width: 20rem;">
+        <div class="card" style="width: 20rem;" [hidden]="!product.title"><!--ili npr [hidden]="!f.dirty"-->
           <p>Preview</p>
           <img class="card-img-top" [src]="imageUrl.value" *ngIf="product.imageUrl">
           <!--rednderiras samo ako postoji imageUrl, inace ako je null, javljace gresku u konzoli-->
