@@ -34,6 +34,7 @@ import { ProductService } from './product.service';
 
 import { CustomFormsModule } from 'ng2-validation';
 import { ProductFilterComponent } from './products/product-filter/product-filter.component';
+import { ProductCartComponent } from './product-cart/product-cart.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { ProductFilterComponent } from './products/product-filter/product-filter
     LoginComponent,
     NotFoundComponent,
     ProductFormComponent,
-    ProductFilterComponent
+    ProductFilterComponent,
+    ProductCartComponent
   ],
   imports: [
     BrowserModule,

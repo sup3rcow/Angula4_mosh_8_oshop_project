@@ -1,0 +1,9 @@
+<div class="card" >
+    <img *ngIf="product.imageUrl" class="card-img-top" [src]="product.imageUrl" [alt]="product.title">
+    <!--rednderiras samo ako postoji imageUrl, inace ako je null, javljace gresku u konzoli-->
+    <div class="card-block">
+      <h4 class="card-title">{{ product.title }}</h4>
+      <p class="card-text">{{ product.price | currency:'HRK' }}</p>
+    </div>
+    <button *ngIf="showActions" class="btn btn-primary">Add to Cart</button>
+  </div>
