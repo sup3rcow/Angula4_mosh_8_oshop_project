@@ -1,0 +1,13 @@
+.card-footer {
+    padding: 0px;
+}
+
+/*
+ovo si postigao klasom btn-block
+.card-footer button {
+    width: 100%;
+} */
+
+.card {
+    margin-bottom: 30px;
+}
