@@ -35,6 +35,7 @@ import { ProductService } from './product.service';
 import { CustomFormsModule } from 'ng2-validation';
 import { ProductFilterComponent } from './products/product-filter/product-filter.component';
 import { ProductCartComponent } from './product-cart/product-cart.component';
+import { ShoppingCartService } from './shopping-cart.service';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,7 @@ import { ProductCartComponent } from './product-cart/product-cart.component';
     NgbModule.forRoot(),
     CustomFormsModule
   ],
-  providers: [AuthService, UserService, AuthGuard, AdminAuthGuard, CategoryService, ProductService],
+  providers: [AuthService, UserService, AuthGuard, AdminAuthGuard, CategoryService, ProductService, ShoppingCartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

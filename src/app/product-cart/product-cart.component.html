@@ -6,6 +6,6 @@
       <p class="card-text">{{ product.price | currency:'HRK' }}</p>
   </div>
   <div class="card-footer">
-        <button *ngIf="showActions" class="btn btn-primary btn-block">Add to Cart</button>
+        <button *ngIf="showActions" class="btn btn-primary btn-block" (click)="addToCart(product)">Add to Cart</button>
   </div>   
 </div>
