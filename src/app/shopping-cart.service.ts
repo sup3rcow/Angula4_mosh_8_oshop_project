@@ -11,14 +11,19 @@ export class ShoppingCartService {
   // kako ne bi morao raditi promise then, napravis async
   async addToCart(product: Product) {
     let cartId = await this.getOrCreateCartId();
-    let item$ = this.db.object('/shopping-carts/' + cartId + '/items/' + product.$key);
+    let item$ = this.getItem(cartId, product.$key);
+
     return item$.take(1).subscribe(item => {
-      if (item.$exists()) {
-        item$.update({ quiantity: item.quiantity + 1 });
-      } else {
-        item$.set({ product: product, quiantity: 1 });
-        // spremas citav objekt kako bi lakse prikazao podatke, da ne moras kasnije dohvatati po productId ostale propertije
-      }
+      // spremas citav objekt kako bi lakse prikazao podatke, da ne moras kasnije dohvatati po productId ostale propertije
+      // napises ovako i puno je preglednije nego ispod if else, set update
+      item$.set({ product: product, quiantity: (item.quiantity || 0) + 1 });
+
+      // if (item.$exists()) {
+      //   item$.update({ quiantity: item.quiantity + 1 });
+      // } else {
+      //   item$.set({ product: product, quiantity: 1 });
+
+      // }
     });
 
     // return this.db.list('/shopping-carts/' + cart.).push({ productId: product.$key});
@@ -32,6 +37,10 @@ export class ShoppingCartService {
 
   private getCart(cartId: string) {
     return this.db.object('/shopping-carts/' + cartId);
+  }
+
+  private getItem(cartId: string, productId: string) {
+    return this.db.object('/shopping-carts/' + cartId + '/items/' + productId);
   }
 
   private async getOrCreateCartId(): Promise<string> {
