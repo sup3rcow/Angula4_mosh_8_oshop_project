@@ -16,7 +16,7 @@ export class ShoppingCartService {
     return item$.take(1).subscribe(item => {
       // spremas citav objekt kako bi lakse prikazao podatke, da ne moras kasnije dohvatati po productId ostale propertije
       // napises ovako i puno je preglednije nego ispod if else, set update
-      item$.set({ product: product, quiantity: (item.quiantity || 0) + 1 });
+      item$.update({ product: product, quiantity: (item.quiantity || 0) + 1 });
 
       // if (item.$exists()) {
       //   item$.update({ quiantity: item.quiantity + 1 });
