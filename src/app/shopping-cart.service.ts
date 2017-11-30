@@ -1,15 +1,54 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { Product } from './models/product';
+import 'rxjs/add/operator/take';
 
 @Injectable()
 export class ShoppingCartService {
 
   constructor(private db: AngularFireDatabase) { }
 
-  create() {
+  // kako ne bi morao raditi promise then, napravis async
+  async addToCart(product: Product) {
+    let cartId = await this.getOrCreateCartId();
+    let item$ = this.db.object('/shopping-carts/' + cartId + '/items/' + product.$key);
+    return item$.take(1).subscribe(item => {
+      if (item.$exists()) {
+        item$.update({ quiantity: item.quiantity + 1 });
+      } else {
+        item$.set({ product: product, quiantity: 1 });
+        // spremas citav objekt kako bi lakse prikazao podatke, da ne moras kasnije dohvatati po productId ostale propertije
+      }
+    });
+
+    // return this.db.list('/shopping-carts/' + cart.).push({ productId: product.$key});
+  }
+
+  private create() {
     return this.db.list('/shopping-carts').push({
       dateCreated: new Date().getTime()
      });
+  }
+
+  private getCart(cartId: string) {
+    return this.db.object('/shopping-carts/' + cartId);
+  }
+
+  private async getOrCreateCartId(): Promise<string> {
+    let cartId = localStorage.getItem('cartId');
+    if (cartId) {
+      return cartId;
+    }
+
+    let result = await this.create();
+    localStorage.setItem('cartId', result.key);
+    return result.key;
+
+    // umjesto promisa, pretvoris u async pa ti izgleda lepse, čitljivije
+    // this.create().then(result =>  {
+    //   localStorage.setItem('cartId', result.key);
+    //   cartId = result.key;
+    // });
   }
 
 }
