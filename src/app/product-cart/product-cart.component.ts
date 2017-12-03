@@ -28,4 +28,8 @@ export class ProductCartComponent {
     return item ? item.quiantity : 0;
   }
 
+  removeFromCart(product) {
+    this.cartService.removeFromCart(product);
+  }
+
 }
