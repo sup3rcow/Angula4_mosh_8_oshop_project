@@ -35,10 +35,6 @@ export class ShoppingCartService {
      });
   }
 
-  private getCart(cartId: string) {
-    return this.db.object('/shopping-carts/' + cartId);
-  }
-
   private getItem(cartId: string, productId: string) {
     return this.db.object('/shopping-carts/' + cartId + '/items/' + productId);
   }
@@ -58,6 +54,13 @@ export class ShoppingCartService {
     //   localStorage.setItem('cartId', result.key);
     //   cartId = result.key;
     // });
+  }
+
+
+  //////////////////
+  async getCart() {
+    let cartId = await this.getOrCreateCartId();
+    return this.db.object('/shopping-carts/' + cartId);
   }
 
 }
