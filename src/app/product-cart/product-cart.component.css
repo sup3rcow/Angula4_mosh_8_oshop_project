@@ -12,6 +12,6 @@ ovo si postigao klasom btn-block
     margin-bottom: 30px;
 }
 
-button {
+.card-footer button {
     cursor: pointer;
 }
