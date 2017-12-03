@@ -11,3 +11,7 @@ ovo si postigao klasom btn-block
 .card {
     margin-bottom: 30px;
 }
+
+button {
+    cursor: pointer;
+}
