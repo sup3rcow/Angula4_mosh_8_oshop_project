@@ -40,6 +40,8 @@ export class ProductsComponent implements OnDestroy, OnInit {
     // });
 
     // isto sto i gore samo malo elegantnije, imas samo jedan subscribe jer koristis switchMap
+    // tu se nemoras unsubscribati
+    // https://stackoverflow.com/questions/44748878/do-we-have-to-unsubscribe-when-using-switchmap-operator-in-rxjs-in-angular-2
     productService.getAll().switchMap(products => {
       this.filteredProducts = this.products = products;
       return route.queryParamMap;
