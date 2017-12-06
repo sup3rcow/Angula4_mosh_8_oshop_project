@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { AppUser } from '../models/app-user';
 import { UserService } from '../user.service';
 import { ShoppingCartService } from '../shopping-cart.service';
+import { ShoppingCart } from '../models/shopping-cart';
 
 
 
@@ -20,7 +21,7 @@ export class BsNavbarComponent implements OnInit {
 
   appUser: AppUser;
 
-  shoppingCartItemCount: number;
+  cart$: Observable<ShoppingCart>;
 
   // ako authService koristis u html-u - templejtu, zbog bildanja za produkciju, ahead of time compiler ocekuje
   // da takvi fieldovi-properiji budu PUBLIC, npr koristio si ga:
@@ -35,17 +36,8 @@ export class BsNavbarComponent implements OnInit {
 
    async ngOnInit() {
      this.authService.appUser$.subscribe(appUser => this.appUser = appUser);
+     this.cart$ = await this.cartService.getCart();
 
-     // nemoras se unsubscribati je imas samo jednu instancu navbara uvijek
-     (await this.cartService.getCart()).subscribe(cart => {
-
-       this.shoppingCartItemCount = 0;
-
-       for (let productId in cart.items) {
-         this.shoppingCartItemCount += cart.items[productId].quiantity;
-       }
-
-     });
    }
 
   logout() {
