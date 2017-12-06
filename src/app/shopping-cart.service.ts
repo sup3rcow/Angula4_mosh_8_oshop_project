@@ -13,7 +13,8 @@ export class ShoppingCartService {
 
   private create() {
     return this.db.list('/shopping-carts').push({
-      dateCreated: new Date().getTime()
+      dateCreated: new Date().getTime(),
+      items: 12
      });
   }
 
@@ -40,11 +41,17 @@ export class ShoppingCartService {
 
 
   //////////////////
-  async getCart(): Promise<Observable<ShoppingCart>> {
+  async getCart(): Promise<FirebaseObjectObservable<ShoppingCart>> {
     let cartId = await this.getOrCreateCartId();
-    return this.db.object('/shopping-carts/' + cartId)
-    .map(x => new ShoppingCart(x.items)); // mapiras firebase objekt na ts objekt kako bi dobio funkcionalnost propertija totalcount
+    return this.db.object('/shopping-carts/' + cartId);
   }
+
+  // async getCart(): Promise<Observable<ShoppingCart>> {
+  //   let cartId = await this.getOrCreateCartId();
+  //   return this.db.object('/shopping-carts/' + cartId)
+  //   .map(x => new ShoppingCart(x.items)); // mapiras firebase objekt na ts objekt kako bi dobio funkcionalnost propertija totalcount
+  // }     // mapiras firebase objekt na ts objekt kako bi dobio funkcionalnost propertija totalcount
+
 
   // add i remove vracaju promise, ne moramo awaitati jer nas ne zanima rezultat.. samo okidamo update
   addToCart(product: Product) {
