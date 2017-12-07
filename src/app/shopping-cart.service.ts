@@ -28,13 +28,22 @@ export class ShoppingCartService {
     }
 
     let result = await this.create();
+
+    // ove 4 linije koda su glupo rjesenje za popravak stete.. bolje napravi da bude thread safe metoda..
+    // jer ovu metodu u isto vreme pozovu navbar i roducts komponente.. pa pravi put se kreira 2 shopping-cart-a
+    cartId = localStorage.getItem('cartId');
+    if (cartId) {
+      this.db.list('/shopping-carts').remove(result.key);
+      return cartId;
+    }
+
     localStorage.setItem('cartId', result.key);
     return result.key;
 
     // umjesto promisa, pretvoris u async pa ti izgleda lepse, čitljivije
     // this.create().then(result =>  {
     //   localStorage.setItem('cartId', result.key);
-    //   cartId = result.key;
+    //   return result.key;
     // });
   }
 
