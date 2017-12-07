@@ -13,8 +13,7 @@ export class ShoppingCartService {
 
   private create() {
     return this.db.list('/shopping-carts').push({
-      dateCreated: new Date().getTime(),
-      items: 12
+      dateCreated: new Date().getTime()
      });
   }
 
