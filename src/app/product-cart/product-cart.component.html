@@ -1,5 +1,5 @@
 <div class="card" >
-  <img *ngIf="product.imageUrl" class="card-img-top" [src]="product.imageUrl" [alt]="product.title" >
+  <img *ngIf="product.imageUrl" class="card-img-top" [src]="product.imageUrl" [alt]="product.title">
   <!--rednderiras samo ako postoji imageUrl, inace ako je null, javljace gresku u konzoli-->
   <div class="card-block">
       <h4 class="card-title">{{ product.title }}</h4>

@@ -20,10 +20,10 @@ export class ProductCartComponent {
   }
 
   getQuantity(): number {
-    if (!this.shoppingCart || !this.shoppingCart.items) {
+    if (!this.shoppingCart || !this.shoppingCart.itemsMap) {
       return 0;
     }
-    let item = this.shoppingCart.items[this.product.$key];
+    let item = this.shoppingCart.itemsMap[this.product.$key];
     return item ? item.quiantity : 0;
   }
 

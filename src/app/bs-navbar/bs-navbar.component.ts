@@ -23,6 +23,8 @@ export class BsNavbarComponent implements OnInit {
 
   totalCount: number;
 
+  cart$: Observable<ShoppingCart>;
+
   // ako authService koristis u html-u - templejtu, zbog bildanja za produkciju, ahead of time compiler ocekuje
   // da takvi fieldovi-properiji budu PUBLIC, npr koristio si ga:
   // authService.user$ | async as user; else anonymusUser
@@ -36,14 +38,17 @@ export class BsNavbarComponent implements OnInit {
 
    async ngOnInit() {
      this.authService.appUser$.subscribe(appUser => this.appUser = appUser);
-     (await this.cartService.getCart()).subscribe(cart => {
-      this.totalCount = 0;
-      if (cart && cart.items) {
-        for (let productId in cart.items) {
-          this.totalCount += cart.items[productId].quiantity;
-        }
-      }
-     });
+
+     this.cart$ = await this.cartService.getCart();
+
+    //  (await this.cartService.getCart()).subscribe(cart => {
+    //   this.totalCount = 0;
+    //   if (cart && cart.items) {
+    //     for (let productId in cart.items) {
+    //       this.totalCount += cart.items[productId].quiantity;
+    //     }
+    //   }
+    // });
 
    }
 

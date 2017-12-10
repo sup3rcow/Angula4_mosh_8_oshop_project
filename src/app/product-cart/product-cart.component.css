@@ -10,8 +10,15 @@ ovo si postigao klasom btn-block
 
 .card {
     margin-bottom: 30px;
+    width: 251px;
 }
 
 .card-footer button {
     cursor: pointer;
 }
+
+img {
+    height: 161px;
+    width: 251px;
+    object-fit: cover;
+  }

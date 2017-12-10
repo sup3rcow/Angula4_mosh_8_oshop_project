@@ -49,9 +49,11 @@ export class ShoppingCartService {
 
 
   //////////////////
-  async getCart(): Promise<FirebaseObjectObservable<ShoppingCart>> {
+  async getCart(): Promise<Observable<ShoppingCart>> {
     let cartId = await this.getOrCreateCartId();
-    return this.db.object('/shopping-carts/' + cartId);
+    return this.db.object('/shopping-carts/' + cartId)
+      .map(cart => new ShoppingCart(cart.items));
+    // mapiras kako bi imao pristup custom properiju ShoppingCart objekta
   }
 
   // async getCart(): Promise<Observable<ShoppingCart>> {
