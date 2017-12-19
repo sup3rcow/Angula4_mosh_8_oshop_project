@@ -65,23 +65,29 @@ export class ShoppingCartService {
 
   // add i remove vracaju promise, ne moramo awaitati jer nas ne zanima rezultat.. samo okidamo update
   addToCart(product: Product) {
-    this.updateItemQuantity(product, 1);
+    this.updateItem(product, 1);
   }
 
   removeFromCart(product: Product) {
-    this.updateItemQuantity(product, -1);
+    this.updateItem(product, -1);
   }
 
 
   // kako ne bi morao raditi promise then, napravis async
-  private async updateItemQuantity(product: Product, change: number) {
+  private async updateItem(product: Product, change: number) {
     let cartId = await this.getOrCreateCartId();
     let item$ = this.getItem(cartId, product.$key);
 
     return item$.take(1).subscribe(item => {
       // spremas citav objekt kako bi lakse prikazao podatke, da ne moras kasnije dohvatati po productId ostale propertije
       // napises ovako i puno je preglednije nego ispod if else, set update
-      item$.update({ product: product, quiantity: (item.quiantity || 0) + change });
+      item$.update({
+        // product: product,
+        title: product.title,
+        imageUrl: product.imageUrl,
+        price: product.price,
+        quiantity: (item.quiantity || 0) + change
+      });
 
       // if (item.$exists()) {
       //   item$.update({ quiantity: item.quiantity + 1 });

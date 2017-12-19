@@ -9,9 +9,14 @@ export class ShoppingCart {
     constructor(public itemsMap: { [productId: string]: ShoppingCartItem }) {
         // definiras izgled objekta na firebaseu-nije array nego objekt sa propertijima
 
+        this.itemsMap = itemsMap || {}; // osiguras da itemMap nikada ne bude undefined
+
         for (let productId in itemsMap) {
             let item = itemsMap[productId]; // uzmes objekt iz firebasea
-            this.items.push(new ShoppingCartItem(item.product, item.quiantity)); // punis array ts objektima da mozes ngFor
+            let x = new ShoppingCartItem();
+            Object.assign(x, item); // pomapirace sve osim $key-a jer on nije property u firebase
+            x.$key = productId;
+            this.items.push(x); // punis array ts objektima da mozes ngFor
         }
     }
 
@@ -46,7 +51,6 @@ export class ShoppingCart {
     }
 
     getQuantity(product: Product): number {
-        if (!this.itemsMap) return 0;
         let item = this.itemsMap[product.$key];
         return item ? item.quiantity : 0;
       }
