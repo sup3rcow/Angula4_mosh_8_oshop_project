@@ -9,7 +9,9 @@ export class ShoppingCartItem {
     quiantity: number;
 
     // constructor(public product: Product, public quiantity: number) { }
-    constructor() { }
+    constructor(item?: Partial<ShoppingCartItem>) { // init moze liciti na Shopping cart
+        Object.assign(this, item); // pomapiras ulazni parametar na propertije od objekta
+    }
 
     get totalPrice() {
         return this.price * this.quiantity;

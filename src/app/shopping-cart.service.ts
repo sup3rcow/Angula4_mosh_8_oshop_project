@@ -11,6 +11,28 @@ export class ShoppingCartService {
 
   constructor(private db: AngularFireDatabase) { }
 
+  // add i remove vracaju promise, ne moramo awaitati jer nas ne zanima rezultat.. samo okidamo update
+  addToCart(product: Product) {
+    this.updateItem(product, 1);
+  }
+
+  removeFromCart(product: Product) {
+    this.updateItem(product, -1);
+  }
+
+  //////////////////
+  async getCart(): Promise<Observable<ShoppingCart>> {
+    let cartId = await this.getOrCreateCartId();
+    return this.db.object('/shopping-carts/' + cartId)
+      .map(cart => new ShoppingCart(cart.items));
+    // mapiras kako bi imao pristup custom properiju ShoppingCart objekta
+  }
+
+  async clearCart() {
+    let cartId = await this.getOrCreateCartId();
+    this.db.object('/shopping-carts/' + cartId + '/items').remove();
+  }
+
   private create() {
     return this.db.list('/shopping-carts').push({
       dateCreated: new Date().getTime()
@@ -48,13 +70,7 @@ export class ShoppingCartService {
   }
 
 
-  //////////////////
-  async getCart(): Promise<Observable<ShoppingCart>> {
-    let cartId = await this.getOrCreateCartId();
-    return this.db.object('/shopping-carts/' + cartId)
-      .map(cart => new ShoppingCart(cart.items));
-    // mapiras kako bi imao pristup custom properiju ShoppingCart objekta
-  }
+
 
   // async getCart(): Promise<Observable<ShoppingCart>> {
   //   let cartId = await this.getOrCreateCartId();
@@ -63,14 +79,7 @@ export class ShoppingCartService {
   // }     // mapiras firebase objekt na ts objekt kako bi dobio funkcionalnost propertija totalcount
 
 
-  // add i remove vracaju promise, ne moramo awaitati jer nas ne zanima rezultat.. samo okidamo update
-  addToCart(product: Product) {
-    this.updateItem(product, 1);
-  }
 
-  removeFromCart(product: Product) {
-    this.updateItem(product, -1);
-  }
 
 
   // kako ne bi morao raditi promise then, napravis async
@@ -79,6 +88,10 @@ export class ShoppingCartService {
     let item$ = this.getItem(cartId, product.$key);
 
     return item$.take(1).subscribe(item => {
+      let quantity = (item.quiantity || 0) + change;
+      if (quantity === 0) {
+        item$.remove(); // remove moras pozvati nad observableom
+      } else {
       // spremas citav objekt kako bi lakse prikazao podatke, da ne moras kasnije dohvatati po productId ostale propertije
       // napises ovako i puno je preglednije nego ispod if else, set update
       item$.update({
@@ -86,7 +99,7 @@ export class ShoppingCartService {
         title: product.title,
         imageUrl: product.imageUrl,
         price: product.price,
-        quiantity: (item.quiantity || 0) + change
+        quiantity: quantity
       });
 
       // if (item.$exists()) {
@@ -95,6 +108,9 @@ export class ShoppingCartService {
       //   item$.set({ product: product, quiantity: 1 });
 
       // }
+      }
+
+
     });
 
     // return this.db.list('/shopping-carts/' + cart.).push({ productId: product.$key});

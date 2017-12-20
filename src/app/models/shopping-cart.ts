@@ -13,9 +13,15 @@ export class ShoppingCart {
 
         for (let productId in itemsMap) {
             let item = itemsMap[productId]; // uzmes objekt iz firebasea
-            let x = new ShoppingCartItem();
-            Object.assign(x, item); // pomapirace sve osim $key-a jer on nije property u firebase
-            x.$key = productId;
+            let x = new ShoppingCartItem({
+                // title: item.title,
+                // imageUrl: item.imageUrl,
+                // price: item.price,
+                ...item, // spread operator, prodje kroz item objekt i doda njegove parametre price, imageUrl, price..
+                $key: productId
+            });
+            // Object.assign(x, item); // pomapirace sve osim $key-a jer on nije property u firebase
+            // x.$key = productId;
             this.items.push(x); // punis array ts objektima da mozes ngFor
         }
     }
