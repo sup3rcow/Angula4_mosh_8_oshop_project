@@ -7,6 +7,9 @@ import { ActivatedRoute } from '@angular/router';
 
 import 'rxjs/add/operator/switchMap';
 import { ShoppingCartService } from '../shopping-cart.service';
+import { ShoppingCart } from '../models/shopping-cart';
+
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -14,15 +17,16 @@ import { ShoppingCartService } from '../shopping-cart.service';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent implements OnDestroy, OnInit {
+export class ProductsComponent implements OnInit {
 
   products: Product[] = []; // moras inicijalizirati ili u kodu proveravati da li je null
   filteredProducts: Product[] = []; // dobra praksa je sve arraye inicijalizirati..
-  subscription: Subscription;
+  // subscription: Subscription;
 
   category: string;
 
-  cart;
+  // cart;
+  cart$: Observable<ShoppingCart>;
 
   constructor(private productService: ProductService, private route: ActivatedRoute, private cartService: ShoppingCartService) {
 
@@ -39,31 +43,46 @@ export class ProductsComponent implements OnDestroy, OnInit {
     //   });
     // });
 
-    // isto sto i gore samo malo elegantnije, imas samo jedan subscribe jer koristis switchMap
-    // tu se nemoras unsubscribati
-    // https://stackoverflow.com/questions/44748878/do-we-have-to-unsubscribe-when-using-switchmap-operator-in-rxjs-in-angular-2
-    productService.getAll().switchMap(products => {
-      this.filteredProducts = this.products = products;
-      return route.queryParamMap;
-    }).subscribe(params => {
-      this.category = params.get('category');
-      if (this.category) {
-        this.filteredProducts = this.products.filter(p => p.category === this.category);
-      } else {
-        this.filteredProducts = this.products;
-      }
-    });
+
+    this.populateProducts();
   }
 
   async ngOnInit() {
     // nemozes awaitati u konstruktoru pa si onda ovo prebacio u oninit
-    this.subscription = (await this.cartService.getCart()).subscribe(cart => {
-      this.cart = cart;
+    // this.subscription = (await this.cartService.getCart()).subscribe(cart => {
+    //   this.cart = cart;
+    // });
+
+    this.cart$ = await this.cartService.getCart();
+
+    // kako bi bilo finije poslozeno,
+    // mozes prebaciti ostatak inicijalizacije iz konstruktora u ngOnInit
+  }
+
+  // ngOnDestroy(): void {
+  //   this.subscription.unsubscribe();
+  // }
+
+
+    // isto sto i gore u konstruktoru samo malo elegantnije, imas samo jedan subscribe jer koristis switchMap
+    // tu se nemoras unsubscribati
+    // https://stackoverflow.com/questions/44748878/do-we-have-to-unsubscribe-when-using-switchmap-operator-in-rxjs-in-angular-2
+  private populateProducts() {
+    this.productService.getAll().switchMap(products => {
+      this.filteredProducts = this.products = products;
+      return this.route.queryParamMap;
+    }).subscribe(params => {
+      this.category = params.get('category');
+      this.applyFilter();
     });
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  private applyFilter() {
+    if (this.category) {
+      this.filteredProducts = this.products.filter(p => p.category === this.category);
+    } else {
+      this.filteredProducts = this.products;
+    }
   }
 
 }

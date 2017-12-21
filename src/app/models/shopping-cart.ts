@@ -2,11 +2,12 @@ import { ShoppingCartItem } from './shopping-cart-item';
 import { Product } from './product';
 
 
+
 export class ShoppingCart {
 
     items: ShoppingCartItem[] = [];
 
-    constructor(public itemsMap: { [productId: string]: ShoppingCartItem }) {
+    constructor(private itemsMap: { [productId: string]: ShoppingCartItem }) {
         // definiras izgled objekta na firebaseu-nije array nego objekt sa propertijima
 
         this.itemsMap = itemsMap || {}; // osiguras da itemMap nikada ne bude undefined
