@@ -46,7 +46,7 @@ export class CheckOutComponent implements OnInit, OnDestroy {
     };
 
     // let orderId = await this.orderService.storeOrder(order);
-    console.log(orderId.key);
+    // console.log(orderId.key);
     // localStorage.setItem('orderId', orderId);
   }
 
