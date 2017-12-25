@@ -6,6 +6,7 @@ import { ShoppingCart } from '../models/shopping-cart';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subscription } from 'rxjs/Subscription';
 import { OrderService } from '../order.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-check-out',
@@ -14,22 +15,27 @@ import { OrderService } from '../order.service';
 })
 export class CheckOutComponent implements OnInit, OnDestroy {
 
-  subscription: Subscription;
+  cartSubscription: Subscription;
+  userSubscription: Subscription;
   cart: ShoppingCart;
+  userId: string;
 
-  constructor(private cartService: ShoppingCartService, private orderService: OrderService) {}
+  constructor(private cartService: ShoppingCartService, private orderService: OrderService, private authService: AuthService) {}
 
   async ngOnInit() {
     let cart$ = await this.cartService.getCart();
-    this.subscription = cart$.subscribe(cart => this.cart = cart);
+    this.cartSubscription = cart$.subscribe(cart => this.cart = cart);
+    this.userSubscription = this.authService.user$.subscribe(user => this.userId = user.uid);
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.cartSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
   }
 
   async placeOrder(x) {
     let order = {
+      userId: this.userId,
       datePlaced: new Date().getTime(),
       shipping: x,
       items: this.cart.items.map(item => {
@@ -45,9 +51,9 @@ export class CheckOutComponent implements OnInit, OnDestroy {
       })
     };
 
-    // let orderId = await this.orderService.storeOrder(order);
-    // console.log(orderId.key);
-    // localStorage.setItem('orderId', orderId);
+    let orderId = await this.orderService.storeOrder(order);
+    console.log(orderId.key);
+    localStorage.setItem('orderId', orderId.key);
   }
 
 }
