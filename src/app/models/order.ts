@@ -1,29 +1,25 @@
-// import { ShoppingCart } from './shopping-cart';
+import { ShoppingCart } from './shopping-cart';
 
 
 
-// export class Order {
+export class Order {
 
-//     userId: string;
-//     datePlaced =
+    datePlaced;
+    items: any[];
 
-//     constructor(cart: ShoppingCart) {
-//         this.datePlaced = new Date().getTime();
-//         cart.items.forEach(let item of );
-//     }
+    constructor(public userId: string, public shipping: any, cart: ShoppingCart) {
+        this.datePlaced = new Date().getTime();
 
-
-//     shipping: any;
-//     items: any[];
-//     // items: this.cart.items.map(item => {
-//     //   return  {
-//     //     product: {
-//     //       title: item.title,
-//     //       imageUrl: item.imageUrl,
-//     //       price: item.price
-//     //     },
-//     //     quantity: item.quiantity,
-//     //     totalPrice: item.totalPrice
-//     //   };
-//     // }
-// }
+        this.items = cart.items.map(item => {
+            return  {
+              product: {
+                title: item.title,
+                imageUrl: item.imageUrl,
+                price: item.price
+              },
+              quantity: item.quiantity,
+              totalPrice: item.totalPrice
+            };
+        });
+    }
+}
