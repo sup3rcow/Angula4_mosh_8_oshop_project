@@ -1,3 +1,4 @@
-<p>
-  admin-orders works!
-</p>
+
+  <ul class="list-group" *ngIf="orders$ | async as orders">
+    <li class="list-group-item" *ngFor="let order of orders">{{ order.$key }} - {{ order.datePlaced | date: 'dd/MM/yyyy hh:mm:ss' }}</li>
+  </ul>

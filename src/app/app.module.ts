@@ -38,6 +38,8 @@ import { ProductCartComponent } from './product-cart/product-cart.component';
 import { ShoppingCartService } from './shopping-cart.service';
 import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
 import { OrderService } from './order.service';
+import { ShoppignCartSummaryComponent } from './shoppign-cart-summary/shoppign-cart-summary.component';
+import { ShoppignFormComponent } from './shoppign-form/shoppign-form.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,9 @@ import { OrderService } from './order.service';
     ProductFormComponent,
     ProductFilterComponent,
     ProductCartComponent,
-    ProductQuantityComponent
+    ProductQuantityComponent,
+    ShoppignCartSummaryComponent,
+    ShoppignFormComponent
   ],
   imports: [
     BrowserModule,
