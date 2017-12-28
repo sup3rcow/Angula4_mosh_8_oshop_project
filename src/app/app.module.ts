@@ -1,45 +1,34 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
-
-import { RouterModule } from '@angular/router';
-
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-
-import { AppComponent } from './app.component';
-import { environment } from '../environments/environment';
-import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
-import { HomeComponent } from './home/home.component';
-import { ProductsComponent } from './products/products.component';
-import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
-import { CheckOutComponent } from './check-out/check-out.component';
-import { OrderSuccessComponent } from './order-success/order-success.component';
-import { MyOrdersComponent } from './my-orders/my-orders.component';
-import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
-import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
-import { LoginComponent } from './login/login.component';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { AuthService } from './auth.service';
-import { AuthGuard } from './auth-guard.service';
-import { UserService } from './user.service';
-import { AdminAuthGuard } from './admin-auth-guard.service';
-import { ProductFormComponent } from './admin/product-form/product-form.component';
-import { CategoryService } from './category.service';
-
 import { FormsModule } from '@angular/forms';
-import { ProductService } from './product.service';
-
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { CustomFormsModule } from 'ng2-validation';
+
+import { environment } from '../environments/environment';
+import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
+import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
+import { ProductFormComponent } from './admin/product-form/product-form.component';
+import { AppComponent } from './app.component';
+import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
+import { CheckOutComponent } from './check-out/check-out.component';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { MyOrdersComponent } from './my-orders/my-orders.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { OrderSuccessComponent } from './order-success/order-success.component';
 import { ProductFilterComponent } from './products/product-filter/product-filter.component';
-import { ProductCartComponent } from './product-cart/product-cart.component';
-import { ShoppingCartService } from './shopping-cart.service';
-import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
-import { OrderService } from './order.service';
+import { ProductsComponent } from './products/products.component';
+import { AdminAuthGuard } from './shared/services/admin-auth-guard.service';
+import { AuthGuard } from './shared/services/auth-guard.service';
+import { SharedModule } from './shared/shared.module';
 import { ShoppignCartSummaryComponent } from './shoppign-cart-summary/shoppign-cart-summary.component';
 import { ShoppignFormComponent } from './shoppign-form/shoppign-form.component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+
 
 @NgModule({
   declarations: [
@@ -57,13 +46,12 @@ import { ShoppignFormComponent } from './shoppign-form/shoppign-form.component';
     NotFoundComponent,
     ProductFormComponent,
     ProductFilterComponent,
-    ProductCartComponent,
-    ProductQuantityComponent,
     ShoppignCartSummaryComponent,
     ShoppignFormComponent
   ],
   imports: [
     BrowserModule,
+    SharedModule,
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
@@ -88,7 +76,7 @@ import { ShoppignFormComponent } from './shoppign-form/shoppign-form.component';
     NgbModule.forRoot(),
     CustomFormsModule
   ],
-  providers: [AuthService, UserService, AuthGuard, AdminAuthGuard, CategoryService, ProductService, ShoppingCartService, OrderService],
+  providers: [AdminAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
