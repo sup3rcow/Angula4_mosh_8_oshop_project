@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
@@ -13,7 +14,8 @@ import { UserService } from './services/user.service';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   declarations: [
     ProductCartComponent,
@@ -21,7 +23,10 @@ import { UserService } from './services/user.service';
   ],
   exports: [ // moras dodati export kako bi ih mogao korisiti parrent module, koji ce koristiti shared module
     ProductCartComponent,
-    ProductQuantityComponent
+    ProductQuantityComponent,
+    // exportas module koje ce druge komponente koristiti
+    CommonModule, // npr tu spada ngIf
+    FormsModule
   ],
   providers: [AuthService, UserService, AuthGuard, CategoryService, ProductService, ShoppingCartService, OrderService]
 })

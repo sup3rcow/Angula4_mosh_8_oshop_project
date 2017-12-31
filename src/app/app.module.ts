@@ -6,64 +6,47 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { CustomFormsModule } from 'ng2-validation';
 
 import { environment } from '../environments/environment';
 import { AdminModule } from './admin/admin.module';
-import { AdminOrdersComponent } from './admin/components/admin-orders/admin-orders.component';
-import { AdminProductsComponent } from './admin/components/admin-products/admin-products.component';
-import { ProductFormComponent } from './admin/components/product-form/product-form.component';
-import { AdminAuthGuard } from './admin/services/admin-auth-guard.service';
 import { AppComponent } from './app.component';
-import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
-import { CheckOutComponent } from './check-out/check-out.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { MyOrdersComponent } from './my-orders/my-orders.component';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { OrderSuccessComponent } from './order-success/order-success.component';
-import { ProductFilterComponent } from './products/product-filter/product-filter.component';
-import { ProductsComponent } from './products/products.component';
-import { AuthGuard } from './shared/services/auth-guard.service';
+import { LoginComponent } from './core/components/login/login.component';
+import { NotFoundComponent } from './core/components/not-found/not-found.component';
+import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import { ShoppignCartSummaryComponent } from './shoppign-cart-summary/shoppign-cart-summary.component';
-import { ShoppignFormComponent } from './shoppign-form/shoppign-form.component';
-import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { ProductsComponent } from './shopping/components/products/products.component';
+import { ShoppingModule } from './shopping/shopping.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    BsNavbarComponent,
-    HomeComponent,
-    ProductsComponent,
-    ShoppingCartComponent,
-    CheckOutComponent,
-    OrderSuccessComponent,
-    MyOrdersComponent,
-    LoginComponent,
-    NotFoundComponent,
-    ProductFilterComponent,
-    ShoppignCartSummaryComponent,
-    ShoppignFormComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     SharedModule,
     AdminModule,
-    FormsModule,
+    ShoppingModule,
+    CoreModule,
+    // FormsModule, // sadrzan je u shared module
     AngularFireModule.initializeApp(environment.firebase),
+
+    // mosh je i ova 3 prebacio u shared module i exportao ih..
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    NgbModule.forRoot(), // samo u app module ide for root
+
     RouterModule.forRoot([
-      { path: '', component: ProductsComponent },
-      { path: 'products', component: ProductsComponent },
-      { path: 'shopping-cart', component: ShoppingCartComponent },
+      { path: '', component: ProductsComponent }, // nisi preselio u core.module jer se koristi ProductsComponent iz shopping modula
       { path: 'login', component: LoginComponent },
 
-      { path: 'check-out', component: CheckOutComponent, canActivate: [AuthGuard] },
-      { path: 'order-success/:id', component: OrderSuccessComponent, canActivate: [AuthGuard] },
-      { path: 'my/orders', component: MyOrdersComponent, canActivate: [AuthGuard] },
+      // { path: 'products', component: ProductsComponent },
+      // { path: 'shopping-cart', component: ShoppingCartComponent },
+
+
+      // { path: 'check-out', component: CheckOutComponent, canActivate: [AuthGuard] },
+      // { path: 'order-success/:id', component: OrderSuccessComponent, canActivate: [AuthGuard] },
+      // { path: 'my/orders', component: MyOrdersComponent, canActivate: [AuthGuard] },
 
       // { path: 'admin/products/new', component: ProductFormComponent, canActivate: [AuthGuard, AdminAuthGuard] },
       // { path: 'admin/products/:id', component: ProductFormComponent, canActivate: [AuthGuard, AdminAuthGuard] },
@@ -71,9 +54,7 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
       // { path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthGuard, AdminAuthGuard] },
 
       { path: '**', component: NotFoundComponent }
-    ]),
-    NgbModule.forRoot(),
-    CustomFormsModule
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]

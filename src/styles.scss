@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+
+/*u angular-cli.json
+si definirao da zelis koristiti styles.scss umjesto styles.css
+
+i kad to napravis moras opet ng serve
+*/
+
+$primary-color: #c1d62e;
+
+body {
+    padding-top: 80px;
+    overflow-y: scroll;
+}
+
+.navbar-light .navbar-brand {
+    color: $primary-color;
+}
+
+.list-group-item.active {
+    background-color: $primary-color;
+    border-color: $primary-color;
+}

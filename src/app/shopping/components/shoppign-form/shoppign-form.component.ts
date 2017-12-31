@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewEncapsulation, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { AuthService } from '../shared/services/auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 import { Router } from '@angular/router';
-import { OrderService } from '../shared/services/order.service';
-import { Order } from '../shared/models/order';
-import { ShoppingCart } from '../shared/models/shopping-cart';
+import { OrderService } from '../../../shared/services/order.service';
+import { Order } from '../../../shared/models/order';
+import { ShoppingCart } from '../../../shared/models/shopping-cart';
 
 
 @Component({

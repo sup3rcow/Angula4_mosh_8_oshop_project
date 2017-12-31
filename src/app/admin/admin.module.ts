@@ -15,8 +15,8 @@ import { AdminAuthGuard } from './services/admin-auth-guard.service';
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
+    // CommonModule, // sadrzano je u shared module
+    // FormsModule,
     CustomFormsModule,
     SharedModule,
     NgbModule, // tu ne trebas NgbModule.forRoot(), jer tako treba samo u root modulu

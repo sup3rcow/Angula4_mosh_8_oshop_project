@@ -1,11 +1,11 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 
-import { AuthService } from '../shared/services/auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 import { Observable } from 'rxjs/Observable';
-import { AppUser } from '../shared/models/app-user';
-import { UserService } from '../shared/services/user.service';
-import { ShoppingCartService } from '../shared/services/shopping-cart.service';
-import { ShoppingCart } from '../shared/models/shopping-cart';
+import { AppUser } from '../../../shared/models/app-user';
+import { UserService } from '../../../shared/services/user.service';
+import { ShoppingCartService } from '../../../shared/services/shopping-cart.service';
+import { ShoppingCart } from '../../../shared/models/shopping-cart';
 
 
 
