@@ -1,17 +1,19 @@
 <!-- https://getbootstrap.com/docs/4.0/layout/grid/#equal-width-multi-row -->
 
-<div class="row">
-  <div class="col-3-md col-12-xs">
-    <product-filter [category]="category"></product-filter>
-  </div>
-  <div class="col"><!--ako ne navedes broj, col ce biti max znaci 9 u ovom slucaju-->
-    <div class="row" *ngIf="cart$ | async as cart">
-      <ng-container *ngFor="let p of filteredProducts; let i = index">
-        <div class="col">
-          <product-cart [product]="p" [shopping-cart]="cart"></product-cart>
-        </div>
-        <div *ngIf="(i + 1) % 3 === 0" class="w-100"></div>
-      </ng-container>
+<div align="center">
+  <div class="row">
+    <div class="col-md-3 col-sm-12">
+      <product-filter [category]="category"></product-filter>
+    </div>
+    <div class="col"><!--ako ne navedes broj, col ce biti max znaci 9 u ovom slucaju-->
+      <div class="row" *ngIf="cart$ | async as cart">
+        <ng-container *ngFor="let p of filteredProducts; let i = index">
+          <div class="col">
+            <product-cart [product]="p" [shopping-cart]="cart"></product-cart>
+          </div>
+          <!-- <div *ngIf="(i + 1) % 3 === 0" class="w-100"></div> --><!--ovo je svaki 3. product zauzimao max sirinu-->
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>
